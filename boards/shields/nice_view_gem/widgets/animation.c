@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <zephyr/kernel.h>
+#include <zephyr/random/random.h>
 #include "animation.h"
 
 enum ART {
@@ -40,8 +41,7 @@ const lv_img_dsc_t *anim_hornet_imgs[] = {
 
 void draw_animation(lv_obj_t *canvas) {
 #if IS_ENABLED(CONFIG_NICE_VIEW_GEM_ANIMATION)
-    srand(k_uptime_get_32());
-    enum ART asset = rand() % 3;
+    enum ART asset = (enum ART)(sys_rand32_get() % 3);
     lv_obj_t *art;
     switch (asset) {
         case REINA:
