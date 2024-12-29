@@ -42,28 +42,28 @@ void draw_animation(lv_obj_t *canvas) {
 #if IS_ENABLED(CONFIG_NICE_VIEW_GEM_ANIMATION)
     srand(k_uptime_get_32());
     enum ART asset = rand() % 3;
-
+    lv_obj_t *art;
     switch (asset) {
         case REINA:
-            lv_obj_t *art = lv_img_create(canvas);
+            art = lv_img_create(canvas);
             lv_img_set_src(art, &reinamomo);
-        break;
+            break;
         case KNIGHT:
-            lv_obj_t *art = lv_animimg_create(canvas);
+            art = lv_animimg_create(canvas);
             lv_obj_center(art);
             lv_animimg_set_src(art, (const void **)anim_knight_imgs, 8);
             lv_animimg_set_duration(art, CONFIG_NICE_VIEW_GEM_ANIMATION_MS);
             lv_animimg_set_repeat_count(art, LV_ANIM_REPEAT_INFINITE);
             lv_animimg_start(art);
-        break;
+            break;
         case HORNET:
-            lv_obj_t *art = lv_animimg_create(canvas);
+            art = lv_animimg_create(canvas);
             lv_obj_center(art);
             lv_animimg_set_src(art, (const void **)anim_hornet_imgs, 8);
             lv_animimg_set_duration(art, CONFIG_NICE_VIEW_GEM_ANIMATION_MS);
             lv_animimg_set_repeat_count(art, LV_ANIM_REPEAT_INFINITE);
             lv_animimg_start(art);
-        break;
+            break;
     }
 #else
     lv_obj_t *art = lv_img_create(canvas);
