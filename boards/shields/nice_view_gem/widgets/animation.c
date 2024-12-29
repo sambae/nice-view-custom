@@ -44,9 +44,9 @@ void draw_animation(lv_obj_t *canvas) {
     lv_obj_t *art = lv_animimg_create(canvas);
     lv_obj_center(art);
     
-    enum ART art = sys_rand32_get() % 3;
+    enum ART asset = sys_rand32_get() % 3;
 
-    switch (art) {
+    switch (asset) {
         case REINA:
             lv_obj_t *art = lv_img_create(canvas);
             lv_img_set_src(art, &reinamomo);
