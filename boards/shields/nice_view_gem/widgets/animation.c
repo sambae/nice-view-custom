@@ -7,7 +7,7 @@ enum ART {
     REINA,
     KNIGHT,
     HORNET
-}
+};
 
 LV_IMG_DECLARE(reinamomo);
 
