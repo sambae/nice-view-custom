@@ -1,6 +1,15 @@
 #include <stdlib.h>
 #include <zephyr/kernel.h>
+#include <zephyr/random/random.h>
 #include "animation.h"
+
+enum ART {
+    REINA,
+    KNIGHT,
+    HORNET
+}
+
+LV_IMG_DECLARE(reinamomo);
 
 LV_IMG_DECLARE(knight0);
 LV_IMG_DECLARE(knight1);
@@ -11,24 +20,54 @@ LV_IMG_DECLARE(knight5);
 LV_IMG_DECLARE(knight6);
 LV_IMG_DECLARE(knight7);
 
-const lv_img_dsc_t *anim_imgs[] = {
+LV_IMG_DECLARE(hornet0);
+LV_IMG_DECLARE(hornet1);
+LV_IMG_DECLARE(hornet2);
+LV_IMG_DECLARE(hornet3);
+LV_IMG_DECLARE(hornet4);
+LV_IMG_DECLARE(hornet5);
+LV_IMG_DECLARE(hornet6);
+LV_IMG_DECLARE(hornet7);
+
+const lv_img_dsc_t *anim_knight_imgs[] = {
     &knight0, &knight1, &knight2, &knight3,
     &knight4, &knight5, &knight6, &knight7,
+};
+
+const lv_img_dsc_t *anim_hornet_imgs[] = {
+    &hornet0, &hornet1, &hornet2, &hornet3,
+    &hornet4, &hornet5, &hornet6, &hornet7,
 };
 
 void draw_animation(lv_obj_t *canvas) {
 #if IS_ENABLED(CONFIG_NICE_VIEW_GEM_ANIMATION)
     lv_obj_t *art = lv_animimg_create(canvas);
     lv_obj_center(art);
+    
+    enum ART art = sys_rand32_get() % 3;
 
-    lv_animimg_set_src(art, (const void **)anim_imgs, 8);
-    lv_animimg_set_duration(art, CONFIG_NICE_VIEW_GEM_ANIMATION_MS);
-    lv_animimg_set_repeat_count(art, LV_ANIM_REPEAT_INFINITE);
-    lv_animimg_start(art);
+    switch (art) {
+        case REINA:
+            lv_obj_t *art = lv_img_create(canvas);
+            lv_img_set_src(art, &reinamomo);
+        break;
+        case KNIGHT:
+            lv_animimg_set_src(art, (const void **)anim_knight_imgs, 8);
+            lv_animimg_set_duration(art, CONFIG_NICE_VIEW_GEM_ANIMATION_MS);
+            lv_animimg_set_repeat_count(art, LV_ANIM_REPEAT_INFINITE);
+            lv_animimg_start(art);
+        break;
+        case HORNET:
+            lv_animimg_set_src(art, (const void **)anim_hornet_imgs, 8);
+            lv_animimg_set_duration(art, CONFIG_NICE_VIEW_GEM_ANIMATION_MS);
+            lv_animimg_set_repeat_count(art, LV_ANIM_REPEAT_INFINITE);
+            lv_animimg_start(art);
+        break;
+    }
 #else
     lv_obj_t *art = lv_img_create(canvas);
 
-    int length = sizeof(anim_imgs) / sizeof(anim_imgs[0]);
+    int length = sizeof(anim_imgs) / sizeof(anim_knight_imgs[0]);
     srand(k_uptime_get_32());
     int random_index = rand() % length;
 
